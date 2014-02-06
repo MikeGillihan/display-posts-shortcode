@@ -61,6 +61,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_content'     => false,
 		'include_date'        => false,
 		'include_excerpt'     => false,
+		'include_titlelink'		=> true,
 		'meta_key'            => '',
 		'no_posts_message'    => '',
 		'offset'              => 0,
@@ -92,6 +93,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content = be_display_posts_bool( $atts['include_content'] );
 	$include_date = be_display_posts_bool( $atts['include_date'] );
 	$include_excerpt = be_display_posts_bool( $atts['include_excerpt'] );
+  $include_titlelink = ows_show_posts_bool( $atts['include_titlelink'] );
 	$meta_key = sanitize_text_field( $atts['meta_key'] );
 	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
@@ -239,6 +241,9 @@ function be_display_posts_shortcode( $atts ) {
 		$image = $date = $author = $excerpt = $content = '';
 		
 		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+
+		if ( !$include_titlelink )
+			$title = '<span class="title">'. get_the_title() .'</span>';
 		
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
